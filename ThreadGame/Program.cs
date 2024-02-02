@@ -1,3 +1,3 @@
 ﻿
-using var game = new ThreadGame.Game1();
+using var game = new ThreadGame.GameWorld();
 game.Run();
