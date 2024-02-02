@@ -24,7 +24,7 @@ namespace ThreadGame
 
         public void AnimationUpdate()
         {
-            // Calculate the frame duration based on the frame rate
+            // Calculate the frame duration based on the frame rate hwj
             frameDuration = 1f / frameRate;
 
             // Add the elapsed time since the last frame to the timer
