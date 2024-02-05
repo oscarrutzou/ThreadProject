@@ -13,7 +13,16 @@ namespace ThreadGame
         public TestPerson(Vector2 pos) { 
             position = pos;
             isCentered = true;
-            texture = GlobalTextures.textures[TextureNames.TestPerson];
+            animation = GlobalAnimations.animationsTest[AnimNames.FighterDead];
+            animation.isLooping = false;
+        }
+
+        public TestPerson(Vector2 pos, AnimNames name, bool loop)
+        {
+            position = pos;
+            isCentered = true;
+            animation = GlobalAnimations.animationsTest[name];
+            animation.isLooping = loop;
         }
     }
 }

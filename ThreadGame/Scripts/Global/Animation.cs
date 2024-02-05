@@ -1,51 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+//using System.Numerics;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace ThreadGame
 {
-    public class Animation
+    public abstract class Animation
     {
-        public AnimNames animationName { get; private set; }
-        public List<Texture2D> frames { get; private set; }
-        public int currentFrame { get; private set; }
+        public AnimNames animationName { get; internal set; }
+        public int currentFrame { get; internal set; }
+        public bool isLooping;
         public Action onAnimationDone;
-        public float frameRate = 20f;
-        private float frameDuration;
-        private float timer;
+        public float frameRate = 5f;
+        internal float frameDuration;
+        internal float timer;
 
-        public Animation(List<Texture2D> frames, AnimNames animationName)
-        {
-            this.frames = frames;
-            currentFrame = 0;
-            this.animationName = animationName;
-        }
-
-
-        public void AnimationUpdate()
-        {
-            // Calculate the frame duration based on the frame rate hwj
-            frameDuration = 1f / frameRate;
-
-            // Add the elapsed time since the last frame to the timer
-            timer += (float)GameWorld.Instance.gameTime.ElapsedGameTime.TotalSeconds;
-            if (timer > frameDuration)
-            {
-                timer -= frameDuration;
-                currentFrame = (currentFrame + 1) % frames.Count;
-                CheckAnimationDone();
-            }
-        }
-
-        /// <summary>
-        /// Check if animation is done
-        /// </summary>
-        private void CheckAnimationDone()
-        {
-            if (currentFrame == frames.Count - 1)
-            {
-                onAnimationDone?.Invoke();
-            }
-        }
+        public abstract int GetDimensionsWidth();
+        public abstract int GetDimensionsHeight();
+        public abstract void AnimationUpdate();
+        public abstract void Draw(bool isCentered, Vector2 pos, Color color, float rotation, int scale, SpriteEffects spriteEffects, float layerDepth);
     }
 }

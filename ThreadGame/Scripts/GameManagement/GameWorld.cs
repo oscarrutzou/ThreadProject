@@ -44,6 +44,7 @@ namespace ThreadGame
             uiCam = new Camera(Vector2.Zero, false);
 
             GlobalTextures.LoadContent();
+            GlobalAnimations.LoadContent();
 
             GenerateScenes();
             currentScene = scenes[ScenesNames.OTestScene];

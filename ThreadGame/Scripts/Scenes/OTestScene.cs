@@ -12,12 +12,21 @@ namespace ThreadGame
     {
         public override void Initialize()
         {
-            TestPerson t = new TestPerson(new Vector2(0, 0));
-            TestPerson t1 = new TestPerson(new Vector2(50, 0));
+            TestPerson t = new TestPerson(new Vector2(-50, 0), AnimNames.FighterSlash, true);
+
+            TestPerson t1 = new TestPerson(new Vector2(50, 0), AnimNames.FighterSlash, true);
 
             SceneData.gameObjectsToAdd.Add(t);
             SceneData.gameObjectsToAdd.Add(t1);
 
+            t.animation.onAnimationDone += ChangeToDeadAnimForTestning;
+        }
+
+        private void ChangeToDeadAnimForTestning()
+        {
+            if (SceneData.persons.Count > 0) {
+                SceneData.persons.Last().animation = GlobalAnimations.animationsTest[AnimNames.FighterDead];
+            }
         }
 
         public override void DrawOnScreen()

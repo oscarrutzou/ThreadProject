@@ -31,14 +31,21 @@ namespace ThreadGame
         {
             get
             {
-                // Try to get the width and height of the texture or the current frame of the animation.
-                Texture2D drawTexture = texture ?? animation?.frames[animation.currentFrame];
-                if (drawTexture is null)
-                    throw new InvalidOperationException("GameObject must have a valid texture or animation.");
-
+                int width;
+                int height;
                 // If the collision box width or height is bigger 0, use the width and height of the texture.
-                int width = collisionBoxWidth > 0 ? collisionBoxWidth : drawTexture.Width;
-                int height = collisionBoxHeight > 0 ? collisionBoxHeight : drawTexture.Height;
+                if (animation != null)
+                {
+                    width = collisionBoxWidth > 0 ? collisionBoxWidth : animation.GetDimensionsWidth();
+                    height = collisionBoxHeight > 0 ? collisionBoxHeight : animation.GetDimensionsHeight();
+                }
+                else if (texture != null)
+                {
+                    width = collisionBoxWidth > 0 ? collisionBoxWidth : texture.Width;
+                    height = collisionBoxHeight > 0 ? collisionBoxHeight : texture.Height;
+                }
+                else
+                    throw new InvalidOperationException("GameObject must have a valid texture or animation.");
 
                 origin = isCentered ? new Vector2(width / 2, height / 2) : Vector2.Zero;
                 return new Rectangle(
@@ -56,18 +63,17 @@ namespace ThreadGame
         public virtual void Draw()
         {
             if (!isVisible) return;
-            Texture2D drawTexture = texture ?? animation?.frames[animation.currentFrame];
-            //Check if the drawTexture is null in the collisionBox, so there is no need to do it here too.
-
-            //If the bool is true, choose the option on the left, if not then it chooses the right
-            origin = isCentered ? new Vector2(drawTexture.Width / 2, drawTexture.Height / 2) : Vector2.Zero;
-
+            
             //Draw the animation texture or the staic texture 
             if (animation != null)
-                GameWorld.Instance.spriteBatch.Draw(drawTexture, position, null, color, rotation, origin, scale, spriteEffects, layerDepth);
+            {
+                animation.Draw(isCentered, position, color, rotation, scale, spriteEffects, layerDepth);
 
-            else if (texture != null)
+            } else if (texture != null)
+            {
+                origin = isCentered ? new Vector2(texture.Width / 2, texture.Height / 2) : Vector2.Zero;
                 GameWorld.Instance.spriteBatch.Draw(texture, position, null, color, rotation, origin, scale, spriteEffects, layerDepth);
+            }
 
             //DrawDebugCollisionBox(Color.Black);
         }
