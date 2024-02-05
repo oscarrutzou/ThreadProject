@@ -6,10 +6,6 @@ namespace ThreadGame
     public static class DebugVariables
     {
         private static Vector2 pos;
-        public static double herbivoresAlive;
-
-        public static Color selectedGridColor = Color.Green;
-        public static Color debugNonWalkableTilesColor = Color.DeepPink;
 
         public static void DrawDebug()
         {
@@ -17,6 +13,9 @@ namespace ThreadGame
 
             DrawString($"GameSpeed: {GameWorld.Instance.gameSpeed}");
             
+            DrawString($"Money: {Person.money}");
+            DrawString($"Food: {Person.food}");
+
         }
 
         private static void DrawString(string text)

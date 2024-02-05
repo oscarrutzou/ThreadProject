@@ -53,7 +53,6 @@ namespace ThreadGame
 
         public virtual void Update() { }
 
-
         public virtual void Draw()
         {
             if (!isVisible) return;

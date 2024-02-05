@@ -13,7 +13,11 @@ namespace ThreadGame
         public override void Initialize()
         {
             TestPerson t = new TestPerson(new Vector2(0, 0));
+            TestPerson t1 = new TestPerson(new Vector2(50, 0));
+
             SceneData.gameObjectsToAdd.Add(t);
+            SceneData.gameObjectsToAdd.Add(t1);
+
         }
 
         public override void DrawOnScreen()

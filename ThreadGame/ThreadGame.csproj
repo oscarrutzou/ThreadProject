@@ -12,11 +12,15 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Content\Persons\AssetPack\**" />
+    <EmbeddedResource Remove="Content\Persons\AssetPack\**" />
+    <None Remove="Content\Persons\AssetPack\**" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.1.303" />
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\Persons\" />
     <Folder Include="Content\World\" />
     <Folder Include="Content\UI\" />
   </ItemGroup>
