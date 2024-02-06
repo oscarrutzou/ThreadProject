@@ -80,7 +80,7 @@ namespace ThreadGame
         {
             switch (gameObject)
             {
-                case Person person:
+                case Worker person:
                     SceneData.persons.Add(person);
                     break;
                 default:
@@ -93,7 +93,7 @@ namespace ThreadGame
         {
             switch (gameObject)
             {
-                case Person person:
+                case Worker person:
                     SceneData.persons.Remove(person);
                     break;
                 default:

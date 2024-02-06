@@ -13,8 +13,8 @@ namespace ThreadGame
 
             DrawString($"GameSpeed: {GameWorld.Instance.gameSpeed}");
             
-            DrawString($"Money: {Person.money}");
-            DrawString($"Food: {Person.food}");
+            DrawString($"Money: {Worker.money}");
+            DrawString($"Food: {Worker.food}");
 
         }
 

@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace ThreadGame
 {
-    public class TestPerson: Person
+    public class TestWorker: Worker
     {
 
-        public TestPerson(Vector2 pos) { 
+        public TestWorker(Vector2 pos) { 
             position = pos;
             isCentered = true;
             animation = GlobalAnimations.animationsTest[AnimNames.FighterDead];
             animation.isLooping = false;
         }
 
-        public TestPerson(Vector2 pos, AnimNames name, bool loop)
+        public TestWorker(Vector2 pos, AnimNames name, bool loop)
         {
             position = pos;
             isCentered = true;

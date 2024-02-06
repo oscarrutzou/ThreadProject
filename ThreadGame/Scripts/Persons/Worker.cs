@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace ThreadGame
 {
-    public abstract class Person : GameObject
+    public abstract class Worker : GameObject
     {
 
         #region Variables
@@ -22,7 +22,7 @@ namespace ThreadGame
         static readonly object foodLock = new object();
 
         #endregion
-        protected Person()
+        protected Worker()
         {
             thread = new Thread(OwnUpdate);
             thread.IsBackground = true;
