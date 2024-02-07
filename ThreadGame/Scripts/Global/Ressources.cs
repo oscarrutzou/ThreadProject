@@ -18,9 +18,9 @@ namespace ThreadGame
 
         public static void SetStartRessources()
         {
-            food = 4;
-            money = 10;
-            monsterDrop = 10;
+            food = 10;
+            money = 0;
+            monsterDrop = 0;
         }
 
         public static bool GetFood(int foodAmount)

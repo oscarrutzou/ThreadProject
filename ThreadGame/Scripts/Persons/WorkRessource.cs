@@ -7,18 +7,24 @@ using System.Threading.Tasks;
 
 namespace ThreadGame
 {
-    public class Ressource: GameObject
+    public class WorkRessource: GameObject
     {
-        public Ressource(Vector2 pos, TextureNames textureName)
+        public WorkRessource(Vector2 pos, TextureNames textureName, float scale)
         {
             this.position = pos;
             texture = GlobalTextures.textures[textureName];
+            this.scale = scale;
+            isCentered = true;
+            layerDepth = 0.2f;
         }
 
-        public Ressource(Vector2 pos, AnimNames animName)
+        public WorkRessource(Vector2 pos, AnimNames animName, float scale)
         {
             this.position = pos;
             animation = GlobalAnimations.GetAnim(animName);
+            this.scale = scale;
+            isCentered = true;
+            layerDepth = 0.2f;
         }
     }
 }

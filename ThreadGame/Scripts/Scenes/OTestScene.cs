@@ -13,15 +13,17 @@ namespace ThreadGame
         Random rnd = new Random();
         public override void Initialize()
         {
-            Fighter t = new Fighter(new Vector2(-50, 0));
+            Fighter f = new Fighter(new Vector2(-50, 0));
 
-            Fighter t1 = new Fighter(new Vector2(50, 0));
+            //Fighter f1 = new Fighter(new Vector2(50, 0));
+            Miner m = new Miner(new Vector2(100, 0));
 
-            SceneData.gameObjectsToAdd.Add(t);
-            SceneData.gameObjectsToAdd.Add(t1);
-            
-            Button b = new Button("Test", () => { }, AnimNames.MediumButtonClick, new Vector2(100, 300), 2);
-            b.SetCollisionBox(65, 30);
+            SceneData.gameObjectsToAdd.Add(f);
+            //SceneData.gameObjectsToAdd.Add(f1);
+            SceneData.gameObjectsToAdd.Add(m);
+
+            Button b = new Button("Test", () => { Ressources.AddFood(5); }, AnimNames.MediumButtonClick, new Vector2(100, 300), 2);
+            //b.SetCollisionBox(65, 30);
             Button b1 = new Button("Test", 
                 () => { SceneData.gameObjectsToAdd.Add(new Fighter(new Vector2(rnd.Next(200, 400), rnd.Next(200, 400)))); }, 
                 AnimNames.MediumButtonClick, 

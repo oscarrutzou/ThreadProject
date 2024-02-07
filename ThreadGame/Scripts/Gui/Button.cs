@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-
 namespace ThreadGame
 {
     public class Button: Gui
@@ -14,16 +13,6 @@ namespace ThreadGame
         private bool invokeActionOnFullScale = true;
         private bool hasPressed;
         private float shinkToScale = 0.95f;
-        private AnimNames animOnClick;
-        private bool hasAnim;
-        public Button(string text, Action onClick)
-        {
-            position = Vector2.Zero;
-            this.text = text;
-            texture = GlobalTextures.textures[TextureNames.StaticBtn];
-            this.onClick = onClick;
-            isCentered = true;
-        }
 
         public Button(string text, Action onClick, TextureNames textureName, Vector2 position)
         {
@@ -101,6 +90,7 @@ namespace ThreadGame
             }
         }
 
+
         // Check if the mouse is over the button
         public bool IsMouseOver()
         {
@@ -150,7 +140,7 @@ namespace ThreadGame
         {
             base.Draw();
             DrawText();
-            //DrawDebugCollisionBox(Color.Black);
+            DrawDebugCollisionBox(Color.Black);
         }
 
         private void DrawText()

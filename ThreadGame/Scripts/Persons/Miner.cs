@@ -7,29 +7,25 @@ using System.Threading.Tasks;
 
 namespace ThreadGame
 {
-    public class Fighter: Worker
+    public class Miner: Worker
     {
-        
-        public Fighter(Vector2 pos) { 
+        public Miner(Vector2 pos) { 
             position = pos;
             isCentered = true;
-            dieAnimation = GlobalAnimations.GetAnim(AnimNames.FighterDead);
+            dieAnimation = GlobalAnimations.GetAnim(AnimNames.MinerDead);
             
-            animation = GlobalAnimations.GetAnim(AnimNames.FighterSlash);
+            animation = GlobalAnimations.GetAnim(AnimNames.Miner);
             animation.isLooping = true;
             animation.shouldPlay = false;
 
-            ressourceOffSet = new Vector2(65, 10);
-            workRessource = new WorkRessource(new Vector2(pos.X + ressourceOffSet.X, pos.Y + ressourceOffSet.Y), AnimNames.SlimeIdle, scale);
-            workRessource.animation.isLooping = true;
-            workRessource.animation.shouldPlay = true;
+            workRessource = new WorkRessource(new Vector2(pos.X + ressourceOffSet.X, pos.Y + ressourceOffSet.Y), TextureNames.Crysal1, scale);
             SceneData.gameObjectsToAdd.Add(workRessource);
         }
 
 
         public override void GenerateRessources()
         {
-            Ressources.AddMonsterDrops(1);
+            Ressources.AddMoney(2);
         }
 
         public override bool TakeRessources()

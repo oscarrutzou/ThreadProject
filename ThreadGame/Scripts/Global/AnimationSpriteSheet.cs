@@ -35,6 +35,12 @@ namespace ThreadGame
             }
         }
 
+        public override void PauseAnim()
+        {
+            currentFrame = 0;
+            sourceRectangle.X = currentFrame * frameDimensions;
+        }
+
         public void CheckAnimationDone(int maxFrames)
         {
             if (currentFrame == maxFrames - 1)

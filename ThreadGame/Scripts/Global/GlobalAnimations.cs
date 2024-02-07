@@ -13,6 +13,7 @@ namespace ThreadGame
         Cook,
         CookDead,
 
+        SlimeIdle,
         //GUI
         MediumButtonClick,
     }
@@ -28,6 +29,14 @@ namespace ThreadGame
             
             LoadSpriteSheet(AnimNames.FighterSlash, "Persons\\Worker\\FighterSlash", 32);
             LoadSpriteSheet(AnimNames.FighterDead, "Persons\\Worker\\FigtherDead", 32);
+
+            LoadSpriteSheet(AnimNames.Miner, "Persons\\Worker\\Miner", 32);
+            LoadSpriteSheet(AnimNames.MinerDead, "Persons\\Worker\\MinerDead", 32);
+
+            LoadSpriteSheet(AnimNames.Cook, "Persons\\Worker\\Cook", 32);
+            LoadSpriteSheet(AnimNames.CookDead, "Persons\\Worker\\CookDead", 32);
+
+            LoadIndividualFramesAnimation(AnimNames.SlimeIdle, "Persons\\Ressource\\slime_", 4);
             LoadIndividualFramesAnimation(AnimNames.MediumButtonClick, "UI\\ButtonAnim\\MediumBtn_", 4);
         }
 

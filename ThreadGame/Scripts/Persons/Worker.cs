@@ -15,6 +15,8 @@ namespace ThreadGame
         #region Variables
         //Time for action
         //Other variables
+        internal WorkRessource workRessource;
+        internal Vector2 ressourceOffSet = new Vector2(50, 35);
 
         internal bool isWorking;
         internal Animation dieAnimation;
@@ -28,6 +30,7 @@ namespace ThreadGame
 
         protected Worker()
         {
+            layerDepth = 0.4f;
             workThread = new Thread(() => OwnUpdate(cts.Token));
             workThread.IsBackground = true;
             workThread.Start();
@@ -41,13 +44,17 @@ namespace ThreadGame
         {
             while (!token.IsCancellationRequested && !isRemoved)
             {
-                Thread.Sleep(rnd.Next(1000, 3000));
 
-                if (!Ressources.GetFood(1) || !TakeRessources())
+                if (!TakeRessources()) continue;
+
+                if (!Ressources.GetFood(1))
                 {
                     WorkerDie();
+                    DieAndGiveBackRessources();
                     break;
                 }
+
+                Thread.Sleep(rnd.Next(1000, 3000));
 
                 isWorking = true;
                 animation.shouldPlay = true;
@@ -62,6 +69,7 @@ namespace ThreadGame
         private void ResetAnimWork()
         {
             animation.shouldPlay = false;
+            animation.PauseAnim();
             animation.onAnimationDone -= ResetAnimWork;
         }
 
@@ -69,6 +77,7 @@ namespace ThreadGame
         {
             animation = dieAnimation;
             animation.shouldPlay = true;
+            animation.frameRate = 5f;
 
             //Other stuff here like making the worker float up and turn alpha down.
 
@@ -76,6 +85,9 @@ namespace ThreadGame
 
             cts.Cancel();
             isRemoved = true;
+
+            if (workRessource != null) 
+                workRessource.isRemoved = true;
         }
 
         private void LifeCycle()
@@ -90,6 +102,11 @@ namespace ThreadGame
         }
 
         public abstract bool TakeRessources();
+        /// <summary>
+        /// Should give back the same amount that it took in TakeRessources.
+        /// </summary>
+        /// <returns></returns>
+        public abstract void DieAndGiveBackRessources();
         public abstract void GenerateRessources();
 
     }

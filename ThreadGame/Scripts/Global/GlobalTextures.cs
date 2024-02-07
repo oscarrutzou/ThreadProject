@@ -11,8 +11,15 @@ namespace ThreadGame
 {
     public enum TextureNames
     {
-        TestPerson,
-        StaticBtn,
+        Crysal1,
+        Crysal2,
+        Crysal3,
+        Bush1,
+        Bush2,
+        Bush3,
+        Grass1,
+        Grass2,
+        Grass3,
 
     }
 
@@ -28,8 +35,15 @@ namespace ThreadGame
             // Load all textures
             textures = new Dictionary<TextureNames, Texture2D>
             {
-                {TextureNames.TestPerson, content.Load<Texture2D>("Persons\\tile_dolphin") },
-                {TextureNames.StaticBtn, content.Load<Texture2D>("UI\\ButtonAnim\\MediumBtn_0") },
+                { TextureNames.Crysal1, content.Load<Texture2D>("Persons\\Ressource\\crystal_1")},
+                { TextureNames.Crysal2, content.Load<Texture2D>("Persons\\Ressource\\crystal_2")},
+                { TextureNames.Crysal3, content.Load<Texture2D>("Persons\\Ressource\\crystal_3")},
+                { TextureNames.Grass1, content.Load<Texture2D>("World\\grass_1")},
+                { TextureNames.Grass2, content.Load<Texture2D>("World\\grass_2")},
+                { TextureNames.Grass3, content.Load<Texture2D>("World\\grass_3")},
+                { TextureNames.Bush1, content.Load<Texture2D>("World\\bush_1")},
+                { TextureNames.Bush2, content.Load<Texture2D>("World\\bush_2")},
+                { TextureNames.Bush3, content.Load<Texture2D>("World\\bush_3")},
 
             };
 

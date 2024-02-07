@@ -23,5 +23,6 @@ namespace ThreadGame
         public abstract void Draw(bool isCentered, Vector2 pos, Color color, float rotation, float scale, SpriteEffects spriteEffects, float layerDepth);
         public abstract Animation Clone();
 
+        public virtual void PauseAnim() { }
     }
 }
