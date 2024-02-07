@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ThreadGame
 {
+    /// <summary>
+    /// Fighter is an npc that generates slime resource.
+    /// </summary>
     public class Fighter: Worker
     {
         
