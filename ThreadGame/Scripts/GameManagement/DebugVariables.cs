@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using System.Diagnostics;
+using System;
 using System.Linq;
 
 namespace ThreadGame
@@ -10,11 +12,14 @@ namespace ThreadGame
         public static void DrawDebug()
         {
             pos = new Vector2(10, 10);
-
+            Process currentProcess = Process.GetCurrentProcess();
+            DrawString($"Threads: {currentProcess.Threads.Count}");
             DrawString($"GameSpeed: {GameWorld.Instance.gameSpeed}");
-            
-            DrawString($"Money: {Worker.money}");
-            DrawString($"Food: {Worker.food}");
+            DrawString($"Cam pos: {GameWorld.Instance.worldCam.position}");
+
+            DrawString($"Money: {Ressources.money}");
+            DrawString($"Food: {Ressources.food}");
+            DrawString($"MonsterDrops: {Ressources.monsterDrop}");
 
         }
 

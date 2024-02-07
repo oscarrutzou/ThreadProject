@@ -21,6 +21,7 @@ namespace ThreadGame
 
         public override void AnimationUpdate()
         {
+            if (!shouldPlay) return;
             // Calculate the frame duration based on the frame rate hwj
             frameDuration = 1f / frameRate;
 
@@ -30,8 +31,8 @@ namespace ThreadGame
             {
                 timer -= frameDuration;
                 currentFrame = (currentFrame + 1) % frames.Count;
-                CheckAnimationDone();
             }
+            CheckAnimationDone();
         }
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace ThreadGame
             }
         }
 
-        public override void Draw(bool isCentered, Vector2 pos, Color color, float rotation, int scale, SpriteEffects spriteEffects, float layerDepth)
+        public override void Draw(bool isCentered, Vector2 pos, Color color, float rotation, float scale, SpriteEffects spriteEffects, float layerDepth)
         {
             Texture2D curFrame = frames[currentFrame];
             Vector2 origin = isCentered ? new Vector2(curFrame.Width / 2, curFrame.Height / 2) : Vector2.Zero;
@@ -59,5 +60,11 @@ namespace ThreadGame
         /// <returns></returns>
         public override int GetDimensionsWidth() => frames[currentFrame].Width;
         public override int GetDimensionsHeight() => frames[currentFrame].Height;
+
+        public override Animation Clone()
+        {
+            return new AnimationIndividualFrames(frames, animationName);
+        }
+
     }
 }

@@ -8,19 +8,27 @@ namespace ThreadGame
     {
         FighterSlash,
         FighterDead,
+        Miner,
+        MinerDead,
+        Cook,
+        CookDead,
+
+        //GUI
+        MediumButtonClick,
     }
 
     public static class GlobalAnimations
     {
         // Dictionary of all animations, both spritesheets and from individualFrames.
-        public static Dictionary<AnimNames, Animation> animationsTest { get; private set; }
+        private static Dictionary<AnimNames, Animation> animations;
 
         public static void LoadContent()
         {
-            animationsTest = new Dictionary<AnimNames, Animation>();
+            animations = new Dictionary<AnimNames, Animation>();
             
             LoadSpriteSheet(AnimNames.FighterSlash, "Persons\\Worker\\FighterSlash", 32);
             LoadSpriteSheet(AnimNames.FighterDead, "Persons\\Worker\\FigtherDead", 32);
+            LoadIndividualFramesAnimation(AnimNames.MediumButtonClick, "UI\\ButtonAnim\\MediumBtn_", 4);
         }
 
         /// <summary>
@@ -36,7 +44,7 @@ namespace ThreadGame
                 dem,
                 animName);
 
-            animationsTest.Add(animName, spriteSheet);
+            animations.Add(animName, spriteSheet);
         }
 
         /// <summary>
@@ -46,7 +54,7 @@ namespace ThreadGame
         /// <param name="animationName"></param>
         /// <param name="path"></param>
         /// <param name="framesInAnim"></param>
-        private static void LoadIndividualFramesAnimationT(AnimNames animationName, string path, int framesInAnim)
+        private static void LoadIndividualFramesAnimation(AnimNames animationName, string path, int framesInAnim)
         {
             // Load all frames in the animation
             List<Texture2D> animList = new List<Texture2D>();
@@ -56,7 +64,12 @@ namespace ThreadGame
             }
 
             AnimationIndividualFrames anim = new AnimationIndividualFrames(animList, animationName);
-            animationsTest.Add(animationName, anim);
+            animations.Add(animationName, anim);
+        }
+
+        public static Animation GetAnim(AnimNames animName)
+        {
+            return animations[animName].Clone();
         }
     }
 }

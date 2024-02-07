@@ -3,14 +3,18 @@ using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct2D1.Effects;
 using System.Collections.Generic;
 using System.Drawing.Printing;
+using System.Threading;
 
 namespace ThreadGame
 {
     public static class InputManager
     {
         #region Variables
+        private static Thread thread;
+
         public static KeyboardState keyboardState;
         public static KeyboardState previousKeyboardState;
+        public static Vector2 desiredMoveCamDirection;
         public static MouseState mouseState;
         // Prevents multiple click when clicking a button
         public static MouseState previousMouseState;
@@ -35,24 +39,34 @@ namespace ThreadGame
             { 10f},
         };
         #endregion
-
-        /// <summary>
-        /// Gets called in GameWorld, at the start of the update
-        /// </summary>
-        public static void HandleInput()
+        public static void InitHandleInput()
         {
-            keyboardState = Keyboard.GetState();
-            mouseState = Mouse.GetState();
+            if (thread == null)
+            {
+                thread = new Thread(HandleInput);
+                thread.IsBackground = true;
+                thread.Start();
+            }
+ 
+        }
 
-            //Sets the mouse position
-            mousePositionOnScreen = GetMousePositionOnUI();
-            mousePositionInWorld = GetMousePositionInWorld();
+        private static void HandleInput()
+        {
+            while (true)
+            {
+                keyboardState = Keyboard.GetState();
+                mouseState = Mouse.GetState();
 
-            HandleKeyboardInput();
-            HandleMouseInput();
+                //Sets the mouse position
+                mousePositionOnScreen = GetMousePositionOnUI();
+                mousePositionInWorld = GetMousePositionInWorld();
 
-            previousMouseState = mouseState;
-            previousKeyboardState = keyboardState;
+                HandleKeyboardInput();
+                HandleMouseInput();
+
+                previousMouseState = mouseState;
+                previousKeyboardState = keyboardState;
+            }
         }
 
         private static void HandleKeyboardInput()
@@ -68,9 +82,27 @@ namespace ThreadGame
                 debugStats = !debugStats;
             }
 
-            MoveCam();
-            ChangeGameSpeed();
+            desiredMoveCamDirection = GetDesiredMoveCamDirection();           
+            //ChangeGameSpeed(); // Handle input and store the desired movement direction
         }
+
+        private static void CheckButtons()
+        {
+            if (SceneData.guis.Count == 0) return;
+
+            foreach (Gui gui in SceneData.guis)
+            {
+                if (gui is Button button)
+                {
+                    if (button.IsMouseOver() && button.isVisible)
+                    {
+                        button.OnClick();
+                        return;  // Return early if a button was clicked
+                    }
+                }
+            }
+        }
+
 
         private static void ChangeGameSpeed()
         {
@@ -98,9 +130,8 @@ namespace ThreadGame
             mouseClicked = (Mouse.GetState().LeftButton == ButtonState.Pressed) && (previousMouseState.LeftButton == ButtonState.Released);
             mouseRightClicked = (Mouse.GetState().RightButton == ButtonState.Pressed) && (previousMouseState.RightButton == ButtonState.Released);
 
-            
+            if (mouseClicked) CheckButtons();
         }
-
 
         private static bool IsMouseOver(GameObject gameObject)
         {
@@ -123,22 +154,17 @@ namespace ThreadGame
             return returnValue;
         }
 
-
-        private static void MoveCam()
+        //Need to just safe it and then allow the main thread to handle the camera since monogame's draw is not thread safe.
+        private static Vector2 GetDesiredMoveCamDirection()
         {
-            // Handle camera movement based on keyboard input //-- look at
             Vector2 moveDirection = Vector2.Zero;
-            if (keyboardState.IsKeyDown(Keys.W))
-                moveDirection.Y = -1;
-            if (keyboardState.IsKeyDown(Keys.S))
-                moveDirection.Y = 1;
-            if (keyboardState.IsKeyDown(Keys.A))
-                moveDirection.X = -1;
-            if (keyboardState.IsKeyDown(Keys.D))
-                moveDirection.X = 1;
-
-            GameWorld.Instance.worldCam.Move(moveDirection * 5); // Control camera speed //-- look at
+            if (keyboardState.IsKeyDown(Keys.W)) moveDirection.Y = -1;
+            if (keyboardState.IsKeyDown(Keys.S)) moveDirection.Y = 1;
+            if (keyboardState.IsKeyDown(Keys.A)) moveDirection.X = -1;
+            if (keyboardState.IsKeyDown(Keys.D)) moveDirection.X = 1;
+            return moveDirection;
         }
+
 
     }
 }

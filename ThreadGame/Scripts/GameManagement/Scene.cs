@@ -80,6 +80,9 @@ namespace ThreadGame
         {
             switch (gameObject)
             {
+                case Gui gui:
+                    SceneData.guis.Add(gui);
+                    break;
                 case Worker person:
                     SceneData.persons.Add(person);
                     break;
@@ -93,6 +96,9 @@ namespace ThreadGame
         {
             switch (gameObject)
             {
+                case Gui gui:
+                    SceneData.guis.Remove(gui);
+                    break;
                 case Worker person:
                     SceneData.persons.Remove(person);
                     break;
@@ -109,20 +115,20 @@ namespace ThreadGame
             //// Draw all GameObjects that is not Gui in the active scene.
             foreach (GameObject gameObject in SceneData.gameObjects)
             {
-                //if (gameObject is not Gui)
-                //{
-                gameObject.Draw();
-                //}
+                if (gameObject is not Gui) //Extra safety so it dosent draw Gui, since that should be in the seperate thread.
+                {
+                    gameObject.Draw();
+                }
             }
         }
 
         public virtual void DrawOnScreen()
         {
             // Draw all Gui GameObjects in the active scene.
-            //foreach (GameObject guiGameObject in SceneData.guis)
-            //{
-            //    guiGameObject.Draw();
-            //}
+            foreach (GameObject guiGameObject in SceneData.guis)
+            {
+                guiGameObject.Draw();
+            }
             //DrawCursor();
 
         }

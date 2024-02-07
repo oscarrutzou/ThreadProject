@@ -12,6 +12,7 @@ namespace ThreadGame
     public enum TextureNames
     {
         TestPerson,
+        StaticBtn,
 
     }
 
@@ -28,6 +29,7 @@ namespace ThreadGame
             textures = new Dictionary<TextureNames, Texture2D>
             {
                 {TextureNames.TestPerson, content.Load<Texture2D>("Persons\\tile_dolphin") },
+                {TextureNames.StaticBtn, content.Load<Texture2D>("UI\\ButtonAnim\\MediumBtn_0") },
 
             };
 

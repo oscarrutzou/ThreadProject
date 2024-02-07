@@ -21,6 +21,8 @@ namespace ThreadGame
 
         public override void AnimationUpdate()
         {
+            if (!shouldPlay) return;
+
             frameDuration = 1f / frameRate;
             timer += (float)GameWorld.Instance.gameTime.ElapsedGameTime.TotalSeconds;
             if (timer > frameDuration)
@@ -42,7 +44,7 @@ namespace ThreadGame
             }
         }
 
-        public override void Draw(bool isCentered, Vector2 pos, Color color, float rotation, int scale, SpriteEffects spriteEffects, float layerDepth)
+        public override void Draw(bool isCentered, Vector2 pos, Color color, float rotation, float scale, SpriteEffects spriteEffects, float layerDepth)
         {
             Vector2 origin = isCentered ? new Vector2(frameDimensions / 2, frameDimensions / 2) : Vector2.Zero;
             GameWorld.Instance.spriteBatch.Draw(texture, pos, sourceRectangle, color, rotation, origin, scale, spriteEffects, layerDepth);
@@ -50,6 +52,12 @@ namespace ThreadGame
 
         public override int GetDimensionsWidth() => frameDimensions;
         public override int GetDimensionsHeight() => frameDimensions;
+
+        public override Animation Clone()
+        {
+            return new AnimationSpriteSheet(texture, frameDimensions, animationName);
+        }
+
     }
 
 }

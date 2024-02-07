@@ -13,7 +13,7 @@ namespace ThreadGame
         public SpriteEffects spriteEffects = SpriteEffects.None;
         public Texture2D texture;
         public Animation animation;
-        public int scale = 3;
+        public float scale = 3f;
         internal float layerDepth = 0;
 
         public bool isRemoved;
@@ -31,8 +31,8 @@ namespace ThreadGame
         {
             get
             {
-                int width;
-                int height;
+                float width;
+                float height;
                 // If the collision box width or height is bigger 0, use the width and height of the texture.
                 if (animation != null)
                 {
@@ -51,8 +51,8 @@ namespace ThreadGame
                 return new Rectangle(
                     (int)(position.X + offset.X - origin.X * scale),
                     (int)(position.Y + offset.Y - origin.Y * scale),
-                    (width * scale),
-                    (height * scale)
+                    (int)(width * scale),
+                    (int)(height * scale)
                 );
             }
             set { }

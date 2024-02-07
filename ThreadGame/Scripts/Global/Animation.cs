@@ -13,12 +13,15 @@ namespace ThreadGame
         public bool isLooping;
         public Action onAnimationDone;
         public float frameRate = 5f;
-        internal float frameDuration;
+        public float frameDuration { get; internal set; }
         internal float timer;
+        public bool shouldPlay = true;
 
         public abstract int GetDimensionsWidth();
         public abstract int GetDimensionsHeight();
         public abstract void AnimationUpdate();
-        public abstract void Draw(bool isCentered, Vector2 pos, Color color, float rotation, int scale, SpriteEffects spriteEffects, float layerDepth);
+        public abstract void Draw(bool isCentered, Vector2 pos, Color color, float rotation, float scale, SpriteEffects spriteEffects, float layerDepth);
+        public abstract Animation Clone();
+
     }
 }

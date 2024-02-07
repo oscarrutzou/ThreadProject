@@ -15,7 +15,6 @@ namespace ThreadGame
         public Camera uiCam { get; private set; } //Static on the ui
         public GameTime gameTime { get; private set; }
         public Random random { get; private set; }
-
         public SpriteBatch spriteBatch;
         public GraphicsDeviceManager gfxManager;
         public GraphicsDevice gfxDevice => GraphicsDevice;
@@ -45,10 +44,12 @@ namespace ThreadGame
 
             GlobalTextures.LoadContent();
             GlobalAnimations.LoadContent();
+            Ressources.SetStartRessources();
 
             GenerateScenes();
             currentScene = scenes[ScenesNames.OTestScene];
             currentScene.Initialize();
+            InputManager.InitHandleInput();
 
             base.Initialize();
         }
@@ -61,9 +62,8 @@ namespace ThreadGame
         protected override void Update(GameTime gameTime)
         {
             this.gameTime = gameTime;
-            InputManager.HandleInput();
             currentScene.Update();
-
+            worldCam.Move(InputManager.desiredMoveCamDirection * 5);
             base.Update(gameTime);
         }
 
