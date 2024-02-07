@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using System;
 using System.Linq;
@@ -11,21 +12,15 @@ namespace ThreadGame
 
         public static void DrawDebug()
         {
-            pos = new Vector2(10, 10);
+            pos = new Vector2(10, 400);
             Process currentProcess = Process.GetCurrentProcess();
             DrawString($"Threads: {currentProcess.Threads.Count}");
-            DrawString($"GameSpeed: {GameWorld.Instance.gameSpeed}");
-            DrawString($"Cam pos: {GameWorld.Instance.worldCam.position}");
-
-            DrawString($"Money: {Ressources.money}");
-            DrawString($"Food: {Ressources.food}");
-            DrawString($"MonsterDrops: {Ressources.monsterDrop}");
 
         }
 
         private static void DrawString(string text)
         {
-            GameWorld.Instance.spriteBatch.DrawString(GlobalTextures.defaultFont, text, pos, Color.Black);
+            GameWorld.Instance.spriteBatch.DrawString(GlobalTextures.defaultFont, text, pos, Color.Black, 0, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             Vector2 size = GlobalTextures.defaultFont.MeasureString(text);
             pos.Y += size.Y;
         }

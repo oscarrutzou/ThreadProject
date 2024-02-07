@@ -20,11 +20,12 @@ namespace ThreadGame
 
         internal bool isWorking;
         internal Animation dieAnimation;
+        public bool isDying;
         internal Random rnd = new Random();
         internal Thread workThread;
         internal Thread lifeThread;
         internal int workTimeInSec = 3;
-        private int lifeInSec = 30;
+        private int lifeInSec = 120;
         private CancellationTokenSource cts = new CancellationTokenSource();
         #endregion
 
@@ -78,7 +79,7 @@ namespace ThreadGame
             animation = dieAnimation;
             animation.shouldPlay = true;
             animation.frameRate = 5f;
-
+            isDying = true;
             //Other stuff here like making the worker float up and turn alpha down.
 
             Thread.Sleep(3000);

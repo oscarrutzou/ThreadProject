@@ -21,6 +21,8 @@ namespace ThreadGame
         public float gameSpeed = 1f;
 
         public static GameWorld Instance;
+
+        public static int width, height;
         #endregion
 
         public GameWorld()
@@ -37,9 +39,9 @@ namespace ThreadGame
 
         protected override void Initialize()
         {
-            ResolutionSize(1280, 720);
-            //Fullscreen();
-            worldCam = new Camera(new Vector2(gfxManager.PreferredBackBufferWidth / 2, gfxManager.PreferredBackBufferHeight / 2), true);
+            //ResolutionSize(1280, 720);
+            Fullscreen();
+            worldCam = new Camera(Vector2.Zero, false);
             uiCam = new Camera(Vector2.Zero, false);
 
             GlobalTextures.LoadContent();
@@ -106,6 +108,9 @@ namespace ThreadGame
             gfxManager.PreferredBackBufferHeight = height;
             gfxManager.IsFullScreen = false;
             gfxManager.ApplyChanges();
+
+            GameWorld.width = gfxManager.PreferredBackBufferWidth;
+            GameWorld.height = gfxManager.PreferredBackBufferHeight;
         }
 
         public void Fullscreen()
@@ -115,6 +120,9 @@ namespace ThreadGame
             gfxManager.PreferredBackBufferHeight = gfxDevice.DisplayMode.Height;
             gfxManager.IsFullScreen = true;
             gfxManager.ApplyChanges();
+
+            width = gfxManager.PreferredBackBufferWidth;
+            height = gfxManager.PreferredBackBufferHeight;
         }
     }
 }

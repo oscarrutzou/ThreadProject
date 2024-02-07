@@ -9,6 +9,7 @@ namespace ThreadGame
 {
     public class Miner: Worker
     {
+        private int addMoneyAmount = 2;
         public Miner(Vector2 pos) { 
             position = pos;
             isCentered = true;
@@ -25,7 +26,7 @@ namespace ThreadGame
 
         public override void GenerateRessources()
         {
-            Ressources.AddMoney(2);
+            Ressources.AddMoney(addMoneyAmount);
         }
 
         public override bool TakeRessources()

@@ -140,7 +140,7 @@ namespace ThreadGame
         {
             base.Draw();
             DrawText();
-            DrawDebugCollisionBox(Color.Black);
+            //DrawDebugCollisionBox(Color.Black);
         }
 
         private void DrawText()

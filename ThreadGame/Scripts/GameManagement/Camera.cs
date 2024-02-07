@@ -46,5 +46,39 @@ namespace ThreadGame
             return transformMatrix; // Return the transformation matrix for rendering.
         }
 
+        public Vector2 TopLeft
+        {
+            get { return position; }
+        }
+        public Vector2 TopCenter
+        {
+            get { return position + new Vector2(GameWorld.Instance.gfxManager.PreferredBackBufferWidth / 2, 0); }
+        }
+
+        public Vector2 TopRight
+        {
+            get { return position + new Vector2(GameWorld.Instance.gfxManager.PreferredBackBufferWidth, 0); }
+        }
+
+        public Vector2 Center
+        {
+            get { return position + new Vector2(GameWorld.Instance.gfxManager.PreferredBackBufferWidth / 2, GameWorld.Instance.gfxManager.PreferredBackBufferHeight / 2); }
+        }
+
+        public Vector2 BottomLeft
+        {
+            get { return position + new Vector2(0, GameWorld.Instance.gfxManager.PreferredBackBufferHeight); }
+        }
+
+        public Vector2 BottomCenter
+        {
+            get { return position + new Vector2(GameWorld.Instance.gfxManager.PreferredBackBufferWidth / 2, GameWorld.Instance.gfxManager.PreferredBackBufferHeight); }
+        }
+
+        public Vector2 BottomRight
+        {
+            get { return position + new Vector2(GameWorld.Instance.gfxManager.PreferredBackBufferWidth, GameWorld.Instance.gfxManager.PreferredBackBufferHeight); }
+        }
+
     }
 }

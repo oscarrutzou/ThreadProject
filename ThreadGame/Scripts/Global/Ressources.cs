@@ -18,8 +18,8 @@ namespace ThreadGame
 
         public static void SetStartRessources()
         {
-            food = 10;
             money = 0;
+            food = 10;
             monsterDrop = 0;
         }
 

@@ -13,7 +13,7 @@ namespace ThreadGame
         public SpriteEffects spriteEffects = SpriteEffects.None;
         public Texture2D texture;
         public Animation animation;
-        public float scale = 3f;
+        public float scale = 2f;
         internal float layerDepth = 0;
 
         public bool isRemoved;

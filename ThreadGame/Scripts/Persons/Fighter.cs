@@ -9,7 +9,8 @@ namespace ThreadGame
 {
     public class Fighter: Worker
     {
-        
+        private int addDropAmount = 1;
+        private int costInMoney = 1;
         public Fighter(Vector2 pos) { 
             position = pos;
             isCentered = true;
@@ -26,17 +27,20 @@ namespace ThreadGame
             SceneData.gameObjectsToAdd.Add(workRessource);
         }
 
-
         public override void GenerateRessources()
         {
-            Ressources.AddMonsterDrops(1);
+            Ressources.AddMonsterDrops(addDropAmount);
         }
 
         public override bool TakeRessources()
         {
-            return true; //Since fighter only need food and that has already been checked/eaten.
+            return Ressources.GetMoney(costInMoney);
         }
-        public override void DieAndGiveBackRessources() { } // Nothing since it dosent take extra ressources.
+
+        public override void DieAndGiveBackRessources()
+        {
+            Ressources.AddMoney(costInMoney);
+        }
 
     }
 }

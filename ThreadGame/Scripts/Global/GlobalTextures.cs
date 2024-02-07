@@ -11,6 +11,10 @@ namespace ThreadGame
 {
     public enum TextureNames
     {
+        TextField,
+        PixelEmpty,
+        PixelWhite,
+
         Crysal1,
         Crysal2,
         Crysal3,
@@ -20,6 +24,8 @@ namespace ThreadGame
         Grass1,
         Grass2,
         Grass3,
+        ChefFood1,
+        ChefFood2,
 
     }
 
@@ -35,6 +41,9 @@ namespace ThreadGame
             // Load all textures
             textures = new Dictionary<TextureNames, Texture2D>
             {
+                { TextureNames.TextField, content.Load<Texture2D>("UI\\textfield1")},
+                { TextureNames.PixelEmpty, content.Load<Texture2D>("UI\\PixelEmpty")},
+                { TextureNames.PixelWhite, content.Load<Texture2D>("UI\\PixelWhite")},
                 { TextureNames.Crysal1, content.Load<Texture2D>("Persons\\Ressource\\crystal_1")},
                 { TextureNames.Crysal2, content.Load<Texture2D>("Persons\\Ressource\\crystal_2")},
                 { TextureNames.Crysal3, content.Load<Texture2D>("Persons\\Ressource\\crystal_3")},
@@ -44,6 +53,8 @@ namespace ThreadGame
                 { TextureNames.Bush1, content.Load<Texture2D>("World\\bush_1")},
                 { TextureNames.Bush2, content.Load<Texture2D>("World\\bush_2")},
                 { TextureNames.Bush3, content.Load<Texture2D>("World\\bush_3")},
+                { TextureNames.ChefFood1, content.Load<Texture2D>("Persons\\Ressource\\chefFood_1")},
+                { TextureNames.ChefFood2, content.Load<Texture2D>("Persons\\Ressource\\chefFood_2")},
 
             };
 
