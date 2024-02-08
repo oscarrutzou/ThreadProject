@@ -132,6 +132,15 @@ namespace ThreadGame
 
         }
 
+        private Vector2 ReturnValidSpawnPos(Rectangle spawnRec)
+        {
+            Vector2 tempPos = Vector2.Zero;
+
+
+
+            return tempPos;
+        }
+
         public void Update()
         {
             UpdateTextFields();

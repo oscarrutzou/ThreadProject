@@ -45,12 +45,12 @@ namespace ThreadGame
         /// </summary>
         /// <param name="animName"></param>
         /// <param name="path"></param>
-        /// <param name="dem"></param>
-        private static void LoadSpriteSheet(AnimNames animName, string path, int dem)
+        /// <param name="dim"></param>
+        private static void LoadSpriteSheet(AnimNames animName, string path, int dim)
         {
             AnimationSpriteSheet spriteSheet = new AnimationSpriteSheet(
                 GameWorld.Instance.Content.Load<Texture2D>(path),
-                dem,
+                dim,
                 animName);
 
             animations.Add(animName, spriteSheet);
