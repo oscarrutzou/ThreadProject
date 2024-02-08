@@ -19,7 +19,7 @@ namespace ThreadGame
         //Time for action
         //Other variables
         internal WorkRessource workRessource;
-        internal Vector2 ressourceOffSet = new Vector2(50, 35);
+        internal Vector2 ressourceOffSet = Vector2.Zero;
 
         internal bool isWorking;
         internal Animation dieAnimation;
@@ -27,8 +27,9 @@ namespace ThreadGame
         internal Random rnd = new Random();
         internal Thread workThread; //handles the behavior cycle of the worker, it contains a custom update method.
         internal Thread lifeThread; //handles the lifespan of the worker, it's used as a glorified timer.
+        public static int foodEatAmount = 3;
         internal int workTimeInSec = 3;
-        private int lifeInSec = 30;
+        private int lifeInSec = 60;
         private CancellationTokenSource cts = new CancellationTokenSource();    //Cancellation token is used to clear thread memory when the thread is disposed.
         #endregion
 
@@ -42,6 +43,8 @@ namespace ThreadGame
             lifeThread = new Thread(LifeCycle);
             lifeThread.IsBackground = true;
             lifeThread.Start();
+
+ 
         }
 
         /// <summary>
@@ -56,7 +59,7 @@ namespace ThreadGame
 
                 if (!TakeRessources()) continue;
 
-                if (!Ressources.GetFood(1))
+                if (!Ressources.UseFood(foodEatAmount))
                 {
                     WorkerDie();
                     DieAndGiveBackRessources();

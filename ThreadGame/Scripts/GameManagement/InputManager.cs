@@ -82,7 +82,7 @@ namespace ThreadGame
                 debugStats = !debugStats;
             }
 
-            desiredMoveCamDirection = GetDesiredMoveCamDirection();           
+            //desiredMoveCamDirection = GetDesiredMoveCamDirection();           
             //ChangeGameSpeed(); // Handle input and store the desired movement direction
         }
 

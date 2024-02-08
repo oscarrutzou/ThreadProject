@@ -14,7 +14,7 @@ namespace ThreadGame
 
 
         public static List<Gui> guis = new List<Gui>();
-        public static List<Worker> persons = new List<Worker>();
+        public static List<Worker> workers = new List<Worker>();
         public static List<GameObject> defaults = new List<GameObject>();
     }
 }

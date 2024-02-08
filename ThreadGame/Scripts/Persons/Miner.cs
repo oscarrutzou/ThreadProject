@@ -9,7 +9,7 @@ namespace ThreadGame
 {
     public class Miner: Worker
     {
-        private int addMoneyAmount = 2;
+        private int addMoneyAmount = 9;
         public Miner(Vector2 pos) { 
             position = pos;
             isCentered = true;
@@ -18,7 +18,7 @@ namespace ThreadGame
             animation = GlobalAnimations.GetAnim(AnimNames.Miner);
             animation.isLooping = true;
             animation.shouldPlay = false;
-
+            ressourceOffSet = new Vector2(42, 23);
             workRessource = new WorkRessource(new Vector2(pos.X + ressourceOffSet.X, pos.Y + ressourceOffSet.Y), TextureNames.Crysal1, scale);
             SceneData.gameObjectsToAdd.Add(workRessource);
         }

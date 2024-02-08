@@ -18,12 +18,43 @@ namespace ThreadGame
 
         public static void SetStartRessources()
         {
-            money = 0;
+            money = 10;
             food = 10;
-            monsterDrop = 0;
+            monsterDrop = 10;
         }
 
-        public static bool GetFood(int foodAmount)
+        /// <summary>
+        /// This is how much food is needed for the action, so it dosent die when spawned.
+        /// </summary>
+        /// <param name="requiredFood"></param>
+        /// <param name="requiredMoney"></param>
+        /// <returns></returns>
+        public static bool TryUseMoneyCheckFood(int requiredFood, int requiredMoney)
+        {
+            lock (moneyLock)
+            {
+                // Check if we have enough money
+                if (money - requiredMoney < 0)
+                {
+                    return false;
+                }
+
+                lock (foodLock)
+                {
+                    // Check if we have enough food
+                    if (food - requiredFood < 0)
+                    {
+                        return false;
+                    }
+
+                    // If we have enough money and food so it dosen't die immediately, make the purchase
+                    money -= requiredMoney;
+                    return true;
+                }
+            }
+        }
+
+        public static bool UseFood(int foodAmount)
         {
             lock (foodLock)
             {
@@ -36,7 +67,7 @@ namespace ThreadGame
             }
         }
 
-        public static bool GetMoney(int moneyAmount)
+        public static bool UseMoney(int moneyAmount)
         {
             lock (moneyLock)
             {
@@ -50,7 +81,7 @@ namespace ThreadGame
             }
         }
 
-        public static bool GetMonsterDrop(int dropAmount)
+        public static bool UseMonsterDrops(int dropAmount)
         {
             lock (monsterDropLock)
             {

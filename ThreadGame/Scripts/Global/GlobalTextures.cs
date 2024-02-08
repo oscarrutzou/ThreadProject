@@ -11,7 +11,8 @@ namespace ThreadGame
 {
     public enum TextureNames
     {
-        TextField,
+        TextField1,
+        TextField2,
         PixelEmpty,
         PixelWhite,
 
@@ -41,7 +42,8 @@ namespace ThreadGame
             // Load all textures
             textures = new Dictionary<TextureNames, Texture2D>
             {
-                { TextureNames.TextField, content.Load<Texture2D>("UI\\textfield1")},
+                { TextureNames.TextField1, content.Load<Texture2D>("UI\\textfield1")},
+                { TextureNames.TextField2, content.Load<Texture2D>("UI\\textfield2")},
                 { TextureNames.PixelEmpty, content.Load<Texture2D>("UI\\PixelEmpty")},
                 { TextureNames.PixelWhite, content.Load<Texture2D>("UI\\PixelWhite")},
                 { TextureNames.Crysal1, content.Load<Texture2D>("Persons\\Ressource\\crystal_1")},

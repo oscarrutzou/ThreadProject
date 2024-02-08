@@ -12,8 +12,8 @@ namespace ThreadGame
     /// </summary>
     public class Fighter: Worker
     {
-        private int addDropAmount = 1;
-        private int costInMoney = 1;
+        private int addDropAmount = 9;
+        private int costInMoney = 3;
         public Fighter(Vector2 pos) { 
             position = pos;
             isCentered = true;
@@ -23,7 +23,7 @@ namespace ThreadGame
             animation.isLooping = true;
             animation.shouldPlay = false;
 
-            ressourceOffSet = new Vector2(65, 10);
+            ressourceOffSet = new Vector2(50, 10);
             workRessource = new WorkRessource(new Vector2(pos.X + ressourceOffSet.X, pos.Y + ressourceOffSet.Y), AnimNames.SlimeIdle, scale);
             workRessource.animation.isLooping = true;
             workRessource.animation.shouldPlay = true;
@@ -37,7 +37,7 @@ namespace ThreadGame
 
         public override bool TakeRessources()
         {
-            return Ressources.GetMoney(costInMoney);
+            return Ressources.UseMoney(costInMoney);
         }
 
         public override void DieAndGiveBackRessources()

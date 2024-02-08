@@ -19,7 +19,15 @@ namespace ThreadGame
         {
             this.position = position;
             this.text = text;
-            texture = GlobalTextures.textures[TextureNames.TextField];
+            texture = GlobalTextures.textures[TextureNames.TextField1];
+            isCentered = true;
+        }
+
+        public GuiField(string text, Vector2 position, TextureNames name)
+        {
+            this.position = position;
+            this.text = text;
+            texture = GlobalTextures.textures[name];
             isCentered = true;
         }
 
@@ -27,7 +35,7 @@ namespace ThreadGame
         {
             base.Draw();
             DrawText();
-            DrawDebugCollisionBox(Color.Black);
+            //DrawDebugCollisionBox(Color.Black);
         }
 
         /// <summary>

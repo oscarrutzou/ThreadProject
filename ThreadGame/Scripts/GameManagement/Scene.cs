@@ -84,7 +84,7 @@ namespace ThreadGame
                     SceneData.guis.Add(gui);
                     break;
                 case Worker person:
-                    SceneData.persons.Add(person);
+                    SceneData.workers.Add(person);
                     break;
                 default:
                     SceneData.defaults.Add(gameObject);
@@ -100,7 +100,7 @@ namespace ThreadGame
                     SceneData.guis.Remove(gui);
                     break;
                 case Worker person:
-                    SceneData.persons.Remove(person);
+                    SceneData.workers.Remove(person);
                     break;
                 default:
                     SceneData.defaults.Remove(gameObject);

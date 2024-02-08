@@ -71,7 +71,7 @@ namespace ThreadGame
 
         protected override void Draw(GameTime gameTime)
         {
-            gfxDevice.Clear(Color.Beige);
+            gfxDevice.Clear(new Color(34, 177, 76));
             ////Draw in world objects
             spriteBatch.Begin(sortMode: SpriteSortMode.FrontToBack, BlendState.AlphaBlend,
                 SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise,
