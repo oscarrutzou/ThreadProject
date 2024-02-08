@@ -9,11 +9,13 @@ namespace ThreadGame
 {
     /// <summary>
     /// Fighter is an npc that generates slime resource.
+    /// It requires food to work.
     /// </summary>
     public class Fighter: Worker
     {
         private int addDropAmount = 1;
         private int costInMoney = 1;
+
         public Fighter(Vector2 pos) { 
             position = pos;
             isCentered = true;

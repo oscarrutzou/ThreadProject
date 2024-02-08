@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 
 namespace ThreadGame
 {
+    /// <summary>
+    /// Miner is an npc that generates money resource.
+    /// It requires food to work.
+    /// </summary>
     public class Miner: Worker
     {
         private int addMoneyAmount = 2;
+
         public Miner(Vector2 pos) { 
             position = pos;
             isCentered = true;

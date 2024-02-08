@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 
 namespace ThreadGame
 {
+    /// <summary>
+    /// Chef is an npc that generates food resource.
+    /// It requires money and food to work.
+    /// </summary>
     public class Chef: Worker
     {
         private int generateFoodAmount = 4;
         private int useMonsterDropAmount = 1;
+        
         public Chef(Vector2 pos) { 
             position = pos;
             isCentered = true;
