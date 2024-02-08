@@ -22,15 +22,15 @@ namespace ThreadGame
             animation = GlobalAnimations.GetAnim(AnimNames.Miner);
             animation.isLooping = true;
             animation.shouldPlay = false;
-            ressourceOffSet = new Vector2(42, 23);
-            workRessource = new WorkRessource(new Vector2(pos.X + ressourceOffSet.X, pos.Y + ressourceOffSet.Y), TextureNames.Crysal1, scale);
-            SceneData.gameObjectsToAdd.Add(workRessource);
+            resourceOffSet = new Vector2(42, 23);
+            workResource = new WorkResource(new Vector2(pos.X + resourceOffSet.X, pos.Y + resourceOffSet.Y), TextureNames.Crysal1, scale);
+            SceneData.gameObjectsToAdd.Add(workResource);
         }
 
 
         public override void GenerateRessources()
         {
-            Ressources.AddMoney(addMoneyAmount);
+            Resources.AddMoney(addMoneyAmount);
         }
 
         public override bool TakeRessources()

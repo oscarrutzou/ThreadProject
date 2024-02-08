@@ -18,25 +18,26 @@ namespace ThreadGame
         #region Variables
         //Time for action
         //Other variables
-        internal WorkRessource workRessource;
-        internal Vector2 ressourceOffSet = Vector2.Zero;
+        internal WorkResource workResource;
+        internal Vector2 resourceOffSet = Vector2.Zero;
 
         internal bool isWorking;
         internal Animation dieAnimation;
         public bool isDying;
         internal Random rnd = new Random();
-        internal Thread workThread; //handles the behavior cycle of the worker, it contains a custom update method.
-        internal Thread lifeThread; //handles the lifespan of the worker, it's used as a glorified timer.
         public static int foodEatAmount = 3;
         internal int workTimeInSec = 3;
         private int lifeInSec = 60;
-        private CancellationTokenSource cts = new CancellationTokenSource();    //Cancellation token is used to clear thread memory when the thread is disposed.
+
+        internal Thread workThread; //handles the behavior cycle of the worker, it contains a custom update method.
+        internal Thread lifeThread; //handles the lifespan of the worker, it's used as a glorified timer.
+        //Cancellation token is used to clear thread memory when the thread is disposed.
+        public CancellationTokenSource cts = new CancellationTokenSource();    
         #endregion
 
         protected Worker()
         {
-            layerDepth = 0.4f;
-            workThread = new Thread(() => OwnUpdate(cts.Token));
+            workThread = new Thread(() => OwnUpdate());
             workThread.IsBackground = true;
             workThread.Start();
 
@@ -45,28 +46,26 @@ namespace ThreadGame
             lifeThread.Start();
 
  
+            layerDepth = 0.4f;
         }
 
         /// <summary>
         /// OwnUpdate is a worker's independent update method.
         /// It updates seperately from GameWorld.Update
         /// </summary>
-        /// <param name="token"></param>
-        public virtual void OwnUpdate(CancellationToken token)
+        private void OwnUpdate()
         {
-            while (!token.IsCancellationRequested && !isRemoved) //Quit loop when this GameObject is marked as removed
+            while (!cts.Token.IsCancellationRequested && !isRemoved) 
             {
-                
-                if (!TakeRessources()) continue;
+                Thread.Sleep(rnd.Next(1000, 3000)); //So there is some room between each time
+                if (!TakeRessources()) continue; //Can be e.g monsterdrops or money
 
-                if (!Ressources.UseFood(foodEatAmount))
+                if (!Resources.UseFood(foodEatAmount)) //Every worker needs to eat when starting a action
                 {
-                    WorkerDie();
-                    DieAndGiveBackRessources();
+                    WorkerDie(); //Kill worker, and remove it after some time
+                    DieAndGiveBackRessources(); //If the worker dies, give back the previous taken ressources
                     break;
                 }
-
-                Thread.Sleep(rnd.Next(1000, 3000));
 
                 //Begin working:
                 isWorking = true;
@@ -78,6 +77,9 @@ namespace ThreadGame
                 GenerateRessources();
                 isWorking = false;
             }
+
+            // Check if cancellation is requested, then die with the death animation
+            if (cts.Token.IsCancellationRequested) WorkerDie();
         }
 
         private void ResetAnimWork()
@@ -88,24 +90,23 @@ namespace ThreadGame
         }
 
         /// <summary>
-        /// WorkerDie is called when the worker's LifeCycle method finishes.
+        /// WorkerDie is called when the worker's LifeCycle method finishes or there aren't enough food.
         /// Begins the death animation and removes the worker shortly after.
         /// </summary>
         internal void WorkerDie()
         {
             animation = dieAnimation;
             animation.shouldPlay = true;
-            animation.frameRate = 5f;
-            isDying = true;
-            //Other stuff here like making the worker float up and turn alpha down.
+            animation.frameRate = 5f; //Die animation should have a slower fps.
+            isDying = true; //For the methods in the UIOverlay.
 
+            //Possible to put extra stuff here, like making the worker float up and turn alpha down.
             Thread.Sleep(3000);
-
             cts.Cancel();
-            isRemoved = true;
+            isRemoved = true; //Removes it from the world
 
-            if (workRessource != null) 
-                workRessource.isRemoved = true;
+            if (workResource != null) 
+                workResource.isRemoved = true; //Removes the ressource
         }
 
         /// <summary>

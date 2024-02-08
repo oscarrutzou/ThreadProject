@@ -25,25 +25,25 @@ namespace ThreadGame
             animation.isLooping = true;
             animation.shouldPlay = false;
 
-            ressourceOffSet = new Vector2(40, 20);
-            workRessource = new WorkRessource(new Vector2(pos.X + ressourceOffSet.X, pos.Y + ressourceOffSet.Y), TextureNames.ChefFood1, scale);
-            SceneData.gameObjectsToAdd.Add(workRessource);
+            resourceOffSet = new Vector2(40, 20);
+            workResource = new WorkResource(new Vector2(pos.X + resourceOffSet.X, pos.Y + resourceOffSet.Y), TextureNames.ChefFood1, scale);
+            SceneData.gameObjectsToAdd.Add(workResource);
         }
 
         public override void GenerateRessources()
         {
-            Ressources.AddFood(generateFoodAmount);
+            Resources.AddFood(generateFoodAmount);
         }
 
         public override bool TakeRessources()
         {
-            return Ressources.UseMonsterDrops(useMonsterDropAmount) && Ressources.UseMoney(useMoneyAmount);
+            return Resources.UseMonsterDrops(useMonsterDropAmount) && Resources.UseMoney(useMoneyAmount);
         }
 
         public override void DieAndGiveBackRessources()
         {
-            Ressources.AddMonsterDrops(useMonsterDropAmount);
-            Ressources.AddMoney(useMoneyAmount);
+            Resources.AddMonsterDrops(useMonsterDropAmount);
+            Resources.AddMoney(useMoneyAmount);
         }
     }
 }

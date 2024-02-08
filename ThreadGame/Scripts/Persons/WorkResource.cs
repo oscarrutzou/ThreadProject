@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ThreadGame
 {
-    public class WorkRessource: GameObject
+    public class WorkResource: GameObject
     {
-        public WorkRessource(Vector2 pos, TextureNames textureName, float scale)
+        public WorkResource(Vector2 pos, TextureNames textureName, float scale)
         {
             this.position = pos;
             texture = GlobalTextures.textures[textureName];
@@ -18,7 +18,7 @@ namespace ThreadGame
             layerDepth = 0.2f;
         }
 
-        public WorkRessource(Vector2 pos, AnimNames animName, float scale)
+        public WorkResource(Vector2 pos, AnimNames animName, float scale)
         {
             this.position = pos;
             animation = GlobalAnimations.GetAnim(animName);

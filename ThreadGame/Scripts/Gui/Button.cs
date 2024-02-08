@@ -46,6 +46,20 @@ namespace ThreadGame
             isCentered = true;
         }
 
+        public Button(Action onClick, AnimNames animName, Vector2 position, int scale)
+        {
+            this.text = "";
+            this.onClick = onClick;
+            SetAnim(animName);
+            this.position = position;
+            this.scale = scale;
+            isCentered = true;
+
+
+            maxScale = scale;
+            shinkToScale = maxScale * 0.95f;
+        }
+
         public Button(string text, Action onClick, AnimNames animName, Vector2 position, int scale)
         {
             this.text = text;

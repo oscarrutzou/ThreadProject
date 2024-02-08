@@ -6,17 +6,17 @@ using System.Threading;
 
 namespace ThreadGame
 {
-    public static class Ressources
+    public static class Resources
     {
         public readonly static object foodLock = new object();
         public readonly static object moneyLock = new object();
-        public readonly static object monsterDropLock = new object(); //For slime
+        public readonly static object monsterDropLock = new object();
 
         public static int food {  get; private set; }
         public static int money {  get; private set; }
         public static int monsterDrop {  get; private set; }
 
-        public static void SetStartRessources()
+        public static void SetStartResources()
         {
             money = 10;
             food = 10;

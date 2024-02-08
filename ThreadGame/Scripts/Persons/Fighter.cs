@@ -24,27 +24,25 @@ namespace ThreadGame
             animation.isLooping = true;
             animation.shouldPlay = false;
 
-            ressourceOffSet = new Vector2(50, 10);
-            workRessource = new WorkRessource(new Vector2(pos.X + ressourceOffSet.X, pos.Y + ressourceOffSet.Y), AnimNames.SlimeIdle, scale);
-            workRessource.animation.isLooping = true;
-            workRessource.animation.shouldPlay = true;
-            SceneData.gameObjectsToAdd.Add(workRessource);
-        }
-
-        public override void GenerateRessources()
-        {
-            Ressources.AddMonsterDrops(addDropAmount);
+            resourceOffSet = new Vector2(50, 10);
+            workResource = new WorkResource(new Vector2(pos.X + resourceOffSet.X, pos.Y + resourceOffSet.Y), AnimNames.SlimeIdle, scale);
+            workResource.animation.isLooping = true;
+            workResource.animation.shouldPlay = true;
+            SceneData.gameObjectsToAdd.Add(workResource);
         }
 
         public override bool TakeRessources()
         {
-            return Ressources.UseMoney(costInMoney);
+            return Resources.UseMoney(costInMoney);
         }
 
         public override void DieAndGiveBackRessources()
         {
-            Ressources.AddMoney(costInMoney);
+            Resources.AddMoney(costInMoney);
         }
-
+        public override void GenerateRessources()
+        {
+            Resources.AddMonsterDrops(addDropAmount);
+        }
     }
 }

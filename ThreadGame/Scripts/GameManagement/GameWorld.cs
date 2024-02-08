@@ -46,7 +46,7 @@ namespace ThreadGame
 
             GlobalTextures.LoadContent();
             GlobalAnimations.LoadContent();
-            Ressources.SetStartRessources();
+            Resources.SetStartResources();
 
             GenerateScenes();
             currentScene = scenes[ScenesNames.OTestScene];

@@ -26,6 +26,8 @@ namespace ThreadGame
         private GuiField fighterSpawnSquare;
         private GuiField fighterSpawnSquareText;
 
+        private int maxPopulation = 10;
+        private bool wonGame;
 
         private int costWorker = 2;
         private int maxCostPerWorker = 15;
@@ -65,7 +67,8 @@ namespace ThreadGame
             while (true)
             {
                 Thread.Sleep(1000);
-                Ressources.AddMoney(1);
+                if (wonGame) break;
+                Resources.AddMoney(1);
             }
         }
         private void PassiveFoodGen()
@@ -73,7 +76,8 @@ namespace ThreadGame
             while (true)
             {
                 Thread.Sleep(4000);
-                Ressources.AddFood(1);
+                if (wonGame) break;
+                Resources.AddFood(1);
             }
         }
 
@@ -81,7 +85,8 @@ namespace ThreadGame
         {
             while (true)
             {
-                Thread.Sleep(10000);
+                Thread.Sleep(20000);
+                if (wonGame) break;
                 costWorker++;
                 if (costWorker == maxCostPerWorker) break;
             }
@@ -100,7 +105,7 @@ namespace ThreadGame
 
             dropsField = new GuiField("Current Drops: 0", topLeftPos);
 
-            populationField = new GuiField("Population 0 / 100", GameWorld.Instance.uiCam.TopRight + new Vector2(-120, 70));
+            populationField = new GuiField($"Population 0 / {maxPopulation}", GameWorld.Instance.uiCam.TopRight + new Vector2(-120, 70));
 
             SceneData.gameObjectsToAdd.Add(foodField);
             SceneData.gameObjectsToAdd.Add(moneyField);
@@ -163,13 +168,13 @@ namespace ThreadGame
         #region Buttons
         private void InitButtons()
         {
-            buyChefBtn = new Button($"Buy Chef: {costWorker}", BuyChef, AnimNames.MediumButtonClick, new Vector2(foodField.position.X, foodField.position.Y + 80), 2);
+            buyChefBtn = new Button(BuyChef, AnimNames.MediumButtonClick, new Vector2(foodField.position.X, foodField.position.Y + 80), 2);
             buyChefBtn.SetCollisionBox(65, 30);
 
-            buyMinerBtn = new Button($"Buy Miner: {costWorker}", BuyMiner, AnimNames.MediumButtonClick, new Vector2(moneyField.position.X, moneyField.position.Y + 80), 2);
+            buyMinerBtn = new Button(BuyMiner, AnimNames.MediumButtonClick, new Vector2(moneyField.position.X, moneyField.position.Y + 80), 2);
             buyMinerBtn.SetCollisionBox(65, 30);
 
-            buyFigtherBtn = new Button($"Buy Figther: {costWorker}", BuyFighter, AnimNames.MediumButtonClick, new Vector2(dropsField.position.X, dropsField.position.Y + 80), 2);
+            buyFigtherBtn = new Button(BuyFighter, AnimNames.MediumButtonClick, new Vector2(dropsField.position.X, dropsField.position.Y + 80), 2);
             buyFigtherBtn.SetCollisionBox(65, 30);
 
             quitGameBtn = new Button("Quit Game", () => GameWorld.Instance.Exit(), AnimNames.MediumButtonClick, GameWorld.Instance.uiCam.BottomRight + new Vector2(-80, -50), 2);
@@ -182,30 +187,37 @@ namespace ThreadGame
         }
         private bool CheckIfCanBuyWorker()
         {
-            if (SceneData.workers.Count >= 100)
+            if (wonGame) return false;
+
+            if (SceneData.workers.Count >= maxPopulation)
             {
                 WinGame();
                 return false;
             }
-            return Ressources.TryUseMoneyCheckFood(Worker.foodEatAmount, costWorker);
+            return Resources.TryUseMoneyCheckFood(Worker.foodEatAmount, costWorker);
         }
 
         private void WinGame()
         {
+            wonGame = true;
+
             foreach (Worker worker in SceneData.workers)
             {
-                worker.WorkerDie();
+                worker.cts.Cancel();
             }
         }
 
         private void BuyChef()
         {
-            if (!CheckIfCanBuyWorker()) return;
+            //Make sure that we havent won the game
+            //Also make sure that we have enough money to buy one, and enough food so it can atleast eat once before dying.
+            if (!CheckIfCanBuyWorker()) return; 
 
             Chef tempF = new Chef(Vector2.Zero);
-            tempF.position = ReturnValidSpawnPos(chefSpawnSquare.collisionBox, tempF);
-            tempF.workRessource.position += tempF.position;
-            SceneData.gameObjectsToAdd.Add(tempF);
+            tempF.position = ReturnValidSpawnPos(chefSpawnSquare.collisionBox, tempF); //Get a random pos inside a Rectangle
+            //Adds the pos to the ressource, since that have a offset to the worker position.
+            tempF.workResource.position += tempF.position; 
+            SceneData.gameObjectsToAdd.Add(tempF); //Gets added next update
         }
 
         private void BuyMiner()
@@ -214,7 +226,7 @@ namespace ThreadGame
 
             Miner tempF = new Miner(Vector2.Zero);
             tempF.position = ReturnValidSpawnPos(minerSpawnSquare.collisionBox, tempF);
-            tempF.workRessource.position += tempF.position;
+            tempF.workResource.position += tempF.position;
             SceneData.gameObjectsToAdd.Add(tempF);
         }
 
@@ -224,7 +236,7 @@ namespace ThreadGame
 
             Fighter tempF = new Fighter(Vector2.Zero);
             tempF.position = ReturnValidSpawnPos(fighterSpawnSquare.collisionBox, tempF);
-            tempF.workRessource.position += tempF.position;
+            tempF.workResource.position += tempF.position;
             SceneData.gameObjectsToAdd.Add(tempF);
         }
 
@@ -232,26 +244,28 @@ namespace ThreadGame
         {
             Rectangle gameObjectRec = gmWorker.collisionBox;
             Vector2 tempPos = Vector2.Zero;
+            int amountOfTries = 0;
             bool found = false;
-
             while (!found)
             {
+                amountOfTries++;
+                
                 // Pick random pos inside rec, by also getting the gmRec and making it so it always only can spawn inside the spawnRec.
                 tempPos = new Vector2(
                     spawnRec.X + gameObjectRec.Width + rand.Next(spawnRec.Width - gameObjectRec.Width),
                     spawnRec.Y + rand.Next(spawnRec.Height - gameObjectRec.Height)
                 );
+                if (amountOfTries > 50) break; //So it have looked for a pos to spawn, but can't find any, and therefore just spawn one ontop of eachother.
 
                 Rectangle tempWorkerCol = new Rectangle((int)tempPos.X, (int)tempPos.Y, gameObjectRec.Width, gameObjectRec.Height);
-                Rectangle tempWorkRessouceCol = new Rectangle((int)tempPos.X, (int)tempPos.Y, gmWorker.workRessource.collisionBox.Width, gmWorker.workRessource.collisionBox.Height);
+                Rectangle tempWorkRessouceCol = new Rectangle((int)tempPos.X, (int)tempPos.Y, gmWorker.workResource.collisionBox.Width, gmWorker.workResource.collisionBox.Height);
 
                 // Check if the list "SceneData.persons" rectangle called "collisionBox" is not intersecting with the current position.
-                found = true;
                 foreach (var person in SceneData.workers)
                 {
-                    if (person.collisionBox.Intersects(tempWorkerCol) || person.collisionBox.Intersects(tempWorkRessouceCol))
+                    if (!person.collisionBox.Intersects(tempWorkerCol) && !person.collisionBox.Intersects(tempWorkRessouceCol))
                     {
-                        found = false; // If the pos that it found then try again.
+                        found = true;
                         break;
                     }
                 }
@@ -265,18 +279,17 @@ namespace ThreadGame
         {
             UpdateTextFields();
         }
-
         private void UpdateTextFields()
         {
-            foodField.text = $"Current Food: {Ressources.food}";
-            moneyField.text = $"Current Money: {Ressources.money}";
-            dropsField.text = $"Current Drops: {Ressources.monsterDrop}";
+            foodField.text = $"Current Food: {Resources.food}";
+            moneyField.text = $"Current Money: {Resources.money}";
+            dropsField.text = $"Current Drops: {Resources.monsterDrop}";
 
             buyChefBtn.text = $"Buy Chef: {costWorker}";
             buyMinerBtn.text = $"Buy Miner: {costWorker}";
             buyFigtherBtn.text = $"Buy Figther: {costWorker}";
-            int populationCount = SceneData.workers.Where(x => !x.isDying).Count();
-            populationField.text = $"Population\n {populationCount} / 100";
+            int populationCount = SceneData.workers.Where(x => !x.isDying).Count(); //Dont need to check if there isRemoved, since they are going to be removed from gameobjects
+            populationField.text = $"Population\n {populationCount} / {maxPopulation}";
         }
     }
 }
