@@ -56,7 +56,7 @@ namespace ThreadGame
         {
             while (!token.IsCancellationRequested && !isRemoved) //Quit loop when this GameObject is marked as removed
             {
-
+                
                 if (!TakeRessources()) continue;
 
                 if (!Ressources.UseFood(foodEatAmount))
@@ -68,11 +68,13 @@ namespace ThreadGame
 
                 Thread.Sleep(rnd.Next(1000, 3000));
 
+                //Begin working:
                 isWorking = true;
                 animation.shouldPlay = true;
                 Thread.Sleep(workTimeInSec *  1000);
-                animation.onAnimationDone += ResetAnimWork;
 
+                //Work done:
+                animation.onAnimationDone += ResetAnimWork;
                 GenerateRessources();
                 isWorking = false;
             }
@@ -122,15 +124,21 @@ namespace ThreadGame
         }
 
         /// <summary>
-        /// 
+        /// Called before the worker starts working.
+        /// Takes a set amount of resources from a common resource pool.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true if a resource was taken.</returns>
         public abstract bool TakeRessources();
+       
         /// <summary>
         /// Should give back the same amount that it took in TakeRessources.
         /// </summary>
-        /// <returns></returns>
         public abstract void DieAndGiveBackRessources();
+
+        /// <summary>
+        /// Called after a worker has successfully finished a work cycle.
+        /// Adds a set amount of resources to a common resource pool.
+        /// </summary>
         public abstract void GenerateRessources();
 
     }
